@@ -148,7 +148,7 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
-                'This is a text section. You can add more information here about the content you wish to display on the homepage. It can be multiple lines of text to provide a comfortable reading experience.',
+                'HELLO!?!?!?!!?!',
                 style: TextStyle(
                   fontSize: 16,
                 ),
