@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
-import 'userpage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'screens/homepage.dart';
 //import 'package:google_fonts.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Required for async main
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform, // Initialize Firebase
+  );
   runApp(const MyApp());
 }
 
@@ -14,7 +20,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Stardust Astrology',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: const Color.fromRGBO(28, 28, 28, 1),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -85,79 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
 
-    );
-  }
-}
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.home),
-            tooltip: 'Home',
-            onPressed: () {
-              // Add your onPressed code here!
-              print('Home pressed');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.search),
-            tooltip: 'Search',
-            onPressed: () {
-              // Add your onPressed code here!
-              print('Search pressed');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            tooltip: 'Notifications',
-            onPressed: () {
-              // Add your onPressed code here!
-              print('Notifications pressed');
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.account_circle),
-            tooltip: 'Profile',
-            onPressed: () {
-              // Add your onPressed code here!
-              print('Profile pressed');
-            },
-          ),
-        ],
-      ),
-      body: const SingleChildScrollView( // Allows the content to be scrollable
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'Header',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'HELLO!?!?!?!!?!',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            // Add more text sections or other widgets as needed
-          ],
-        ),
-      ),
     );
   }
 }
