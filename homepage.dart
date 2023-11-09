@@ -21,7 +21,7 @@ class HomePage extends StatelessWidget {
               icon: const Icon(Icons.search),
               tooltip: 'Search',
               onPressed: () {
-                // Add your onPressed code here!
+                // search bar (might be extraneous)
                 print('Search pressed');
               },
             ),
@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
               icon: const Icon(Icons.notifications),
               tooltip: 'Notifications',
               onPressed: () {
-                // Add your onPressed code here!
+                // open notifs menu
                 print('Notifications pressed');
               },
             ),
@@ -43,9 +43,8 @@ class HomePage extends StatelessWidget {
               ),
             ],
         ),
-
-      // ... other parts of your Scaffold ...
-        body:  SingleChildScrollView( // Allows the content to be scrollable
+        
+        body:  SingleChildScrollView( 
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
