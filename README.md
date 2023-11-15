@@ -1,6 +1,6 @@
 # Stardust
 
-Welcome to Stardust, an innovative app dedicated to enhancing your daily life through effective habit tracking, lifestyle management, and personalized planning. Stardust is designed to help you align your daily activities with your long-term goals, ensuring a harmonious balance between productivity and well-being.
+Welcome to Stardust, an innovative app dedicated to enhancing your daily life through effective habit tracking, lifestyle management, and personalized planning. Stardust is designed to help you align your daily activities with your long-term goals, ensuring a harmonious balance between productivity and well-being. (WIP)
 
 ## Features
 
