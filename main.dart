@@ -1,21 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/animation.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'firebase_options.dart';
 import 'screens/homepage.dart';
+import 'authentication_service.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 //import 'package:google_fonts.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Required for async main
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform, // Initialize Firebase
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  String? googleClientId;
+  if (kIsWeb) {
+    googleClientId = "<SOMETHINGGOESHERE>"; // a magician never shares his secrets
+  }
+
+  AuthenticationService authService = AuthenticationService(FirebaseAuth.instance, clientId: googleClientId);
+  runApp(MyApp(authService: authService));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthenticationService authService;
 
+  const MyApp({Key? key, required this.authService}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,15 +37,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Stardust'),
+      home: MyHomePage(title: 'Stardust', authService: authService),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
+  final AuthenticationService authService;
   final String title;
+
+  MyHomePage({Key? key, required this.authService, required this.title}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -51,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
+                MaterialPageRoute(builder: (context) => HomePage(authService: widget.authService)),
               );
             },
             child: const SizedBox(
@@ -87,10 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-
         ],
       ),
-
     );
   }
 }
