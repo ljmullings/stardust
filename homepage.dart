@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:stardust/authentication_service.dart';
+import 'profilepage.dart';
+import 'notifications.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final AuthenticationService authService;
+
+  const HomePage({Key? key, required this.authService}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +18,7 @@ class HomePage extends StatelessWidget {
               icon: const Icon(Icons.home),
               tooltip: 'Home',
               onPressed: () {
-                // Add your onPressed code here!
                 print('Home pressed');
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.search),
-              tooltip: 'Search',
-              onPressed: () {
-                // search bar (might be extraneous)
-                print('Search pressed');
               },
             ),
             IconButton(
@@ -31,6 +27,11 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 // open notifs menu
                 print('Notifications pressed');
+                Navigator.push (
+                  context,
+                  MaterialPageRoute(builder: (context) => NotificationsPage(),
+                  ),
+                );
               },
             ),
             IconButton(
@@ -43,36 +44,112 @@ class HomePage extends StatelessWidget {
               ),
             ],
         ),
-        
-        body:  SingleChildScrollView( 
+
+        body:  SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(
-                  'Why Astrology?',
+                  'stardust',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,  // Example color
+                    color: Colors.white,
                   ),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Container(
-                  // Constrain the width of the text block
-                  width: MediaQuery.of(context).size.width * 0.7, // 80% of screen width
+                  width: MediaQuery.of(context).size.width * 0.7,
                   child: Text(
-                    'Astrology offers a unique and captivating avenue for personal exploration, life organization, and mindfulness. In a world bustling with activity and often overwhelmed by the mundane, astrology serves as a tool to pause and reflect on the deeper aspects of our lives and personalities. By considering the positions of celestial bodies at the time of our birth, astrology provides insights into our character traits, strengths, weaknesses, and potential life paths. This cosmic perspective encourages individuals to align their actions with their core selves, fostering a sense of harmony and purpose. The practice of charting and anticipating life\'s events according to astrological signs and movements promotes a mindful approach to daily living. It\'s not just about predicting the future, but about understanding the intricate dance of character and destiny. For many, astrology is a fun, intriguing, and insightful way to bring order to chaos, find direction in uncertainty, and cultivate a more mindful, self-aware existence.',
+                     'from what once was, to what will be',
                     style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,  // Adjust the color as needed
+                      fontSize: 14,
+                      color: Colors.white,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
+              ),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                  childAspectRatio: 1.0,
+                ),
+                itemCount: 4,
+                itemBuilder: (context, index) {
+
+                  Color buttonColor;
+                  IconData? buttonIcon;
+                  String buttonText;
+
+                  switch (index) {
+                    case 0:
+                      buttonColor = Colors.deepPurple[200]!;
+                      buttonIcon = Icons.star;
+                      buttonText = "my stardust";
+                      break;
+                    case 1:
+                      buttonColor = Colors.pink[200]!;
+                      buttonIcon = Icons.favorite;
+                      buttonText = "habit tracking";
+                      break;
+                    case 2:
+                      buttonColor = Colors.green[200]!;
+                      buttonIcon = Icons.nature_people;
+                      buttonText = "see horoscope";
+                      break;
+                    case 3:
+                      buttonColor = Colors.blue[200]!;
+                      buttonIcon = Icons.water;
+                      buttonText = "my goals";
+                      break;
+                    default:
+                      buttonColor = Colors.grey;
+                      buttonText = "Button ${index + 1}";
+                  }
+
+                  return AspectRatio(
+                    aspectRatio: 1.0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(50.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          print("Button $index pressed");
+                          if (index == 0) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyProfilePage(),), //userName: authService.currentUser?.displayName)
+                            );
+                          }
+                          // Additional actions
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (buttonIcon != null) Icon(buttonIcon, size: 40),
+                            Text(buttonText),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: buttonColor,
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          elevation: 5,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -81,13 +158,13 @@ class HomePage extends StatelessWidget {
   }
   void _showButtonMenu(BuildContext context) async {
     final RenderBox button = context.findRenderObject() as RenderBox;
-    final RenderBox overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
-
-    // Calculate the position for the menu
+    final RenderBox overlay = Overlay.of(context)!.context
+        .findRenderObject() as RenderBox;
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
         button.localToGlobal(Offset.zero, ancestor: overlay),
-        button.localToGlobal(overlay.size.bottomRight(Offset.zero), ancestor: overlay),
+        button.localToGlobal(
+            overlay.size.bottomRight(Offset.zero), ancestor: overlay),
       ),
       Offset.zero & overlay.size,
     ).shift(Offset(-button.size.width, button.size.height));
@@ -97,9 +174,30 @@ class HomePage extends StatelessWidget {
       position: position,
       items: [
         const PopupMenuItem<String>(value: 'login', child: Text('Login')),
-        const PopupMenuItem<String>(value: 'create_account', child: Text('Create Account')),
+        const PopupMenuItem<String>(
+            value: 'create_account', child: Text('Create Account')),
         const PopupMenuItem<String>(value: 'demo', child: Text('Demo')),
       ],
     );
+
+    if (selected == 'login') {
+      signInWithGoogleAction(context);
+    }
+  }
+  void signInWithGoogleAction(BuildContext context) async {
+    try {
+      final user = await authService.signInWithGoogle();
+      if (user != null) {
+        // User successfully signed in
+        // Navigate to another screen or update the UI accordingly
+        print('User signed in: ${user.displayName}');
+      } else {
+        // User cancelled the sign-in process
+        print('Sign-in cancelled');
+      }
+    } catch (e) {
+      print('Error during sign-in: $e');
+
+    }
   }
 }
