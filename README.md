@@ -18,7 +18,7 @@ Welcome to Stardust, an innovative app dedicated to enhancing your daily life th
 
 ---
 
-## Known Bugs and Future Fixes
+## Known Bugs and Future Fixes (Next update: 11/17/23)
 - **Refresh page**: Currently only refreshes page to the title screen page
 
 - **Login Inconsistent**: Supports login with google only through firebase integrations, but does not store the data you enter with build profile (ie. "My Stardust")
