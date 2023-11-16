@@ -18,4 +18,18 @@ Welcome to Stardust, an innovative app dedicated to enhancing your daily life th
 
 ---
 
+## Known Bugs and Future Fixes
+- **Refresh page**: Currently only refreshes page to the title screen page
+
+- **Login Inconsistent**: Supports login with google only through firebase integrations, but does not store the data you enter with build profile (ie. "My Stardust")
+
+- **Empty Buttons**: Has several empty functions with no screens to map
+
+- **Global screen**: Some pages do not have all of the UI elements they should ie. AppBar, see profile, although it does support backwards navigation. 
+
+- **Cloud FireStore**: Missing the Cloud Firestore integration (Should be updated November 17th)
+
+- **LLM not available**:  LLM page removed, under reconstruction
+
+ 
 Enjoy your journey with Stardust, and here's to a more organized, productive, and fulfilling life!
